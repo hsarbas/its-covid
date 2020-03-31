@@ -1,15 +1,14 @@
-from flask import Flask
+from flask import Flask, render_template
 
 
 class CovidDb(Flask):
     def __init__(self):
         super(CovidDb, self).__init__(__name__)
-        self.add_url_rule('/hello/', '/', self.hello_world)
-        self.add_url_rule('/', '/', self.hello_world)
+        self.add_url_rule('/', 'index', self.index)
         self.register_error_handler(404, self.my_404)
 
-    def hello_world(self):
-        return f'Hello World!'
+    def index(self):
+        return render_template('index.html')
 
     def my_404(self, error):
         # render custom error 404 page
