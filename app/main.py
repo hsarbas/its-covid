@@ -1,20 +1,25 @@
 from flask import Flask, render_template
+from app.model.database.db import Database
 
 
-class CovidDb(Flask):
-    def __init__(self):
-        super(CovidDb, self).__init__(__name__)
-        self.add_url_rule('/', 'index', self.index)
-        self.register_error_handler(404, self.my_404)
+db = Database()
+app = Flask(__name__, static_folder='./view/static', template_folder='./view/templates')
 
-    def index(self):
-        return render_template('index.html')
 
-    def my_404(self, error):
-        # render custom error 404 page
-        return f'ERROR 404: Page not found!', 404
+@app.route('/')
+def index():
+    records = db.get_all_records()
+    markers = []
+    for record in records:
+        markers.append([record[11], record[12]])
+
+    return render_template('index.html', markers=markers)
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
 
 
 if __name__ == '__main__':
-    app = CovidDb()
     app.run()
