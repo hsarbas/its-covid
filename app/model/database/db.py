@@ -4,6 +4,7 @@ import json
 
 
 class Database(object):
+    """ SQLite3 database"""
     def __init__(self):
         self.connection = None
         self.cursor = None
@@ -11,6 +12,11 @@ class Database(object):
         self.connect()
 
     def connect(self):
+        """
+        Connect to 'covid-19' database
+        :return:
+        """
+
         _dir = os.path.dirname(__file__)
         fname = 'covid-19.db'
         db_fname = os.path.join(_dir, fname)
@@ -24,7 +30,7 @@ class Database(object):
 
     def create_records_table(self):
         """
-        create records table
+        Create records table
         :return:
         """
 
@@ -64,6 +70,7 @@ class Database(object):
         :param values: An array of values to be included
         :param table: table name
         """
+
         if table == 'records':
             fid = values[0]
             if not self.check_record_in_table(fid, 'nodes'):
@@ -84,10 +91,20 @@ class Database(object):
             self.cursor.execute("SELECT * FROM records WHERE FID=?", _value)
 
     def get_all_records(self):
+        """
+        Return a list of all items from records table.
+        :return:
+        """
+
         self.cursor.execute("SELECT * FROM records")
         return self.cursor.fetchall()
 
     def read_data(self):
+        """
+        Parse data from 'data.json' and insert them into records table
+        :return:
+        """
+
         filename = os.path.join(os.path.dirname(__file__), 'data.json')
 
         with open(filename, 'r') as f:
