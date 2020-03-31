@@ -24,6 +24,9 @@ class Database(object):
         self.connection = sqlite3.connect(db_fname, check_same_thread=False)
         self.cursor = self.connection.cursor()
 
+        self._init_db()  # uncomment to initialize database tables
+
+    def _init_db(self):
         if self.check_table_exists('records') is None:
             self.create_records_table()
             self.read_data()
@@ -73,10 +76,12 @@ class Database(object):
 
         if table == 'records':
             fid = values[0]
-            if not self.check_record_in_table(fid, 'nodes'):
+            if not self.check_record_in_table(fid, 'records'):
                 self.cursor.execute("""
                                     INSERT INTO records VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                                     """, values)
+
+        self.connection.commit()
 
     def check_record_in_table(self, value, table):
         """

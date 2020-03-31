@@ -1,1 +1,6 @@
 Flask
+Flask-HTTPAuth
+Flask-WTF
+wtforms
+Flask-Login
+Werkzeug
