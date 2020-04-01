@@ -15,11 +15,9 @@ class RecordsAPI(object):
         :return:
         """
 
-        limit = 2000
-        offset = 0
         url = "https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/PH_masterlist/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=true&spatialRel=esriSpatialRelIntersects&outFields=%2A&outSR=102100&cacheHint=true&fbclid=IwAR3WIYausDM0uo0Hk8AIjuwk60hJe0ay60Z7utrGHRNyXtQGvBKx8BeoZXI"
-        data = dict(resultOffset=offset, resultRecordCount=limit)
-        response = requests.request("GET", url, params=data)
+
+        response = requests.request("GET", url)
         data = response.content
         self.ph_masterlist = json.loads(data)
 
