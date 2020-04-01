@@ -6,29 +6,24 @@ import json
 import requests
 
 class Database(object):
-    """ SQLite3 database"""
+    """ Api database"""
     def __init__(self):
-        self.connection = None
-        self.cursor = None
-
         self.connect()
-
 
     def connect(self):
         """
         Connect to 'covid-19' database
         :return:
         """
-        self.url = "https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/PH_masterlist/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=true&spatialRel=esriSpatialRelIntersects&outFields=%2A&outSR=102100&cacheHint=true&fbclid=IwAR3WIYausDM0uo0Hk8AIjuwk60hJe0ay60Z7utrGHRNyXtQGvBKx8BeoZXI"
-        self.response = requests.request("GET", self.url)
-        self.data = self.response.content
-        self.output = json.loads(self.data)
-        # print(self.output)
+        url = "https://services5.arcgis.com/mnYJ21GiFTR97WFg/arcgis/rest/services/PH_masterlist/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=true&spatialRel=esriSpatialRelIntersects&outFields=%2A&outSR=102100&cacheHint=true&fbclid=IwAR3WIYausDM0uo0Hk8AIjuwk60hJe0ay60Z7utrGHRNyXtQGvBKx8BeoZXI"
+        response = requests.request("GET", url)
+        data =response.content
+        self.PH_masterlist = json.loads(data)
 
     def get_all_records(self):
         """
-        Return a list of all items from records table.
+        Return a list of all items from PH_masterlist records table.
         :return:
         """
-        data = self.output['features']
+        data = self.PH_masterlist['features']
         return data
