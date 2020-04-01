@@ -1,21 +1,21 @@
-""" Minimal web app using Flask """
+"""
+Minimal web server using Flask
+"""
 
 from flask import render_template, flash, redirect, url_for
 from flask_login import LoginManager, login_required, current_user, login_user, logout_user
-
-from app.model.database.db import Database
 from app.controller.login import LoginForm
 from app.controller.signup import SignupForm
-import json
 from app import app, db
 from app.model.user import User
+from app.model.api.records import RecordsAPI
 
 
-data_db = Database()
 db.create_all()
-
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
+
+records_api = RecordsAPI()
 
 
 @login_manager.user_loader
@@ -28,23 +28,26 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-# @app.route('/')
-# def index():
-#     """
-#     Default landing page
-#     :return:
-#     """
-#     return render_template('index.html')
-
-
-@app.route('/records/')
-def records():
+@app.route('/', methods=['GET', 'POST'])
+def login():
     """
-    Gets all data in json format.
+    Default landing page;
+    Login using credentials;
+    Implemented with backend validation
     :return:
     """
-    _records = data_db.get_all_records()
-    return json.dumps(_records)
+    if current_user.is_authenticated:
+        return redirect(url_for('dashboard'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+
+        if user is None or not user.check_password(form.password.data):
+            flash('Invalid username or password')
+            return redirect(url_for('login'))
+        login_user(user, remember=form.remember_me.data)
+        return redirect(url_for('dashboard'))
+    return render_template('login.html', title='Sign In', form=form)
 
 
 @app.route('/dashboard/')
@@ -54,10 +57,13 @@ def dashboard():
     Homepage upon login
     :return:
     """
-    _records = data_db.get_all_records()
+
+    records = records_api.get_all_records()
     markers = []
-    for record in _records:
-        markers.append([record[11], record[12]])
+    for record in records:
+        attributes = record['attributes']
+        markers.append([attributes['latitude'], attributes['longitude']])
+
     return render_template('dashboard.html', markers=markers)
 
 
@@ -79,26 +85,6 @@ def signup():
         flash('Congratulations, you are now a registered user!')
         return redirect(url_for('login'))
     return render_template('signup.html', title='Register', form=form)
-
-
-@app.route('/', methods=['GET', 'POST'])
-def login():
-    """
-    Login using credentials; implemented with backend validation
-    :return:
-    """
-    if current_user.is_authenticated:
-        return redirect(url_for('dashboard'))
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
-
-        if user is None or not user.check_password(form.password.data):
-            flash('Invalid username or password')
-            return redirect(url_for('login'))
-        login_user(user, remember=form.remember_me.data)
-        return redirect(url_for('dashboard'))
-    return render_template('login.html', title='Sign In', form=form)
 
 
 @app.route('/logout/')

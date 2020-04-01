@@ -1,25 +1,10 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
-              integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-              crossorigin=""/>
-        <link rel="stylesheet" href="{{ url_for('static', filename = 'dashboard.css') }}"/>
+{% extends "base.html" %}
 
-        <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
-                integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-                crossorigin=""></script>
+{% block content %}
 
-        <title>ITS Lab - Covid-19 Project</title>
-
-    </head>
-
-    <body>
-        <div id="mapid"></div>
+    <div id="mapid"></div>
         <script>
-            var mymap = L.map('mapid').setView([13, 122], 6);
+            let mymap = L.map('mapid').setView([13, 122], 6);
 
             L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',
                 {attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
@@ -32,13 +17,17 @@
 
             document.getElementsByClassName( 'leaflet-control-attribution' )[0].style.display = 'none';
 
-            {{markers}}.forEach(myFunction);
+            {{markers}}.forEach(add_markers);
 
-            function myFunction(item) {
-                let marker = L.marker(item).addTo(mymap);}
+            function add_markers(item) {
+                let circleOptions = {
+                    color: 'red',
+                    fillColor: 'red',
+                    fillOpacity: 9
+                };
 
+                let marker = L.circle(item,150, circleOptions).addTo(mymap);
+            }
         </script>
 
-    </body>
-
-</html>
+{% endblock %}
