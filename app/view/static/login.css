@@ -72,7 +72,7 @@ label {
     border-left: 1px solid #464655;
     border-right: 2px solid #464655;
     border-bottom: 2px solid #464655;
-    background-image: linear-gradient(to bottom right, #8cfffd, #5da8a7);
+    background-image: linear-gradient(to bottom right, #73dedc, #5da8a7);
 }
 
 .login-submit:active {
@@ -80,7 +80,7 @@ label {
     border-left: 2px solid #464655;
     border-right: 1px solid #464655;
     border-bottom: 1px solid #464655;
-    background-image: linear-gradient(to bottom right, #5da8a7, #8cfffd);
+    background-image: linear-gradient(to bottom right, #5da8a7, #73dedc);
 }
 
 .register {

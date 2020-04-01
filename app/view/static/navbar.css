@@ -3,5 +3,10 @@
 }
 
 .navbar {
-    background-color: #f1e9da;
+    background-color: #73dedc;
+    border-bottom: 2px solid #5da8a7;
+}
+
+.nav-link {
+    color: black;
 }
