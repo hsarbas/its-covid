@@ -1,7 +1,8 @@
 """ Minimal web app using Flask """
 
 from flask import Flask, render_template
-from app.model.database.db import Database
+# from app.model.database.db import Database
+from app.model.database.api import Database
 
 
 db = Database()
@@ -19,8 +20,8 @@ def index():
     records = db.get_all_records()
     markers = []
     for record in records:
-        markers.append([record[11], record[12]])
-
+        attributes = record['attributes']
+        markers.append([attributes['latitude'], attributes['longitude']])
     return render_template('index.html', markers=markers)
 
 

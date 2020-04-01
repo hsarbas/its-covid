@@ -35,7 +35,15 @@
             {{markers}}.forEach(myFunction);
 
             function myFunction(item) {
-                let marker = L.marker(item).addTo(mymap);}
+				var circleOptions = {
+								color: 'red',
+								fillColor: 'red',
+								fillOpacity: 9
+							};
+
+				console.log(item)
+
+                let marker = L.circle(item,150, circleOptions).addTo(mymap);}
 
         </script>
 
