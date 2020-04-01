@@ -2,8 +2,10 @@
 
 {% block content %}
 
+
     <div id="mapid"></div>
-        <script>
+
+    <script>
             let mymap = L.map('mapid').setView([13, 122], 6);
 
             L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}',

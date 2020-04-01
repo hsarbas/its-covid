@@ -61,8 +61,7 @@ def dashboard():
     records = records_api.get_all_records()
     markers = []
     for record in records:
-        attributes = record['attributes']
-        markers.append([attributes['latitude'], attributes['longitude']])
+        markers.append([record['latitude'], record['longitude']])
 
     return render_template('dashboard.html', markers=markers)
 
