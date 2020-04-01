@@ -28,13 +28,13 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-@app.route('/')
-def index():
-    """
-    Default landing page
-    :return:
-    """
-    return render_template('index.html')
+# @app.route('/')
+# def index():
+#     """
+#     Default landing page
+#     :return:
+#     """
+#     return render_template('index.html')
 
 
 @app.route('/records/')
@@ -81,7 +81,7 @@ def signup():
     return render_template('signup.html', title='Register', form=form)
 
 
-@app.route('/login/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def login():
     """
     Login using credentials; implemented with backend validation
@@ -108,7 +108,7 @@ def logout():
     :return:
     """
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('login'))
 
 
 @app.errorhandler(404)

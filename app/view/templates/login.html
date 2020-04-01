@@ -1,19 +1,31 @@
-<!doctype html>
-<html lang="en">
-    <body>
-        <h1>Sign In</h1>
-            <form action="" method="post" novalidate>
-                {{ form.hidden_tag() }}
-                <p>
-                    {{ form.username.label }}<br>
-                    {{ form.username(size=32) }}
-                </p>
-                <p>
-                    {{ form.password.label }}<br>
-                    {{ form.password(size=32) }}
-                </p>
-                <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
-                <p>{{ form.submit() }}</p>
-            </form>
-    </body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+
+    <div id="background">
+        <div class="d-flex align-items-center justify-content-center h-100">
+        <div id="details-box">
+            <h1 id="login-header">COVID-19 Database</h1> <br>
+            <div id="login-details">
+                <form action="" method="post" novalidate>
+                    {{ form.hidden_tag() }}
+                    <p>
+<!--                        {{ form.username.label }}-->
+                        {{ form.username(class_="login-input", placeholder="Enter username") }}
+                    </p>
+                    <p>
+<!--                        {{ form.password.label }}-->
+                        {{ form.password(class_="login-input", placeholder="Enter password") }}
+                    </p>
+                    <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+                    <p>{{ form.submit(class_="login-submit") }}</p>
+                </form>
+                <p class="register">No account? <a href="#" class="register">Register</a>.</p>
+            </div>
+
+        </div>
+    </div>
+    </div>
+
+
+{% endblock %}
