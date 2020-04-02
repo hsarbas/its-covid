@@ -1,6 +1,7 @@
 Flask
 Flask-HTTPAuth
 Flask-WTF
+Flask-SQLAlchemy
 wtforms
 Flask-Login
 Werkzeug
