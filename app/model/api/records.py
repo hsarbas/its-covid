@@ -20,8 +20,8 @@ class RecordsAPI(object):
             params = dict(resultOffset=offset, resultRecordCount=limit)
             response = requests.request("GET", url, headers=headers, params=params).json()
 
-            for item in response['features']:
-                all_records.append(item['attributes'])
+            # for item in response['features']:
+            #     all_records.append(item['attributes'])
 
             if 'exceededTransferLimit' in response:
                 offset += limit
